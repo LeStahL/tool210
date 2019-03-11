@@ -1,4 +1,4 @@
-/* SAEGE - ShAdEr Graph Editor v1.57 "BINGE" 
+/* Team210 Demotool 
  * Copyright (C) 2019  Alexander Kraus <nr4@z10.info>
  *
  * This program is free software: you can redistribute it and/or modify
