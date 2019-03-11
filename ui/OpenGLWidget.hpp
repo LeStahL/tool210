@@ -19,14 +19,25 @@
 #define OPENGLWIDGET_H
 
 #include <QOpenGLWidget>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
 
 class OpenGLWidget : public QOpenGLWidget
 {
 public:
     OpenGLWidget(QWidget *parent = nullptr);
+    virtual ~OpenGLWidget();
+
+protected:
     void initializeGL();
+    void resizeGL(int w, int h);
     void paintGL();
-    void resizeGL();
+
+private:
+    QOpenGLShaderProgram *m_prog;
+    QOpenGLVertexArrayObject m_vbo;
+    QOpenGLBuffer m_vert;
 };
 
 #endif
