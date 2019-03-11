@@ -15,32 +15,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef NODE_H
-#define NODE_H
+#ifndef BOX_H
+#define BOX_H
 
-class Layer;
+#include "Node.hpp"
 
-#include <QList>
-
-class Node
+class Box : public Node
 {
 public:
-    Node(Layer *layer, Node *parent, QString name="");
-    virtual ~Node();
-    
-    QByteArray pack(QTime t);
-    QString name();
-    void setName(QString name);
-    
-    bool appendChild(Node *child);
-    bool removeChild(Node *child);
-    Node *childAt(int index);
-    
-    virtual QString typeString();
-    
-private:
-    QString m_name;
-    QList<Node *> m_children;
+    Box(Layer *parent, QString name="");
+    virtual ~Box();
 };
 
 #endif
