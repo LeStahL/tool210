@@ -17,6 +17,11 @@
 
 #include "OpenGLWidget.hpp"
 
+OpenGLWidget::OpenGLWidget(QWidget* parent)
+    : QOpenGLWidget(parent)
+{
+}
+
 void OpenGLWidget::initializeGL()
 {
 }

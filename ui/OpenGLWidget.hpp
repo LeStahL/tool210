@@ -23,6 +23,7 @@
 class OpenGLWidget : public QOpenGLWidget
 {
 public:
+    OpenGLWidget(QWidget *parent = nullptr);
     void initializeGL();
     void paintGL();
     void resizeGL();
