@@ -1,3 +1,11 @@
+# KDevelop
+*.kdev4
+*.kate_swp
+*.kate-swp
+
+# build
+build
+
 # Prerequisites
 *.d
 
