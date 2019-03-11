@@ -56,6 +56,19 @@ void OpenGLWidget::initializeGL()
     m_prog->setAttributeArray(0, vertices, 3);
     m_prog->enableAttributeArray(0);
 
+    m_text = new QOpenGLTexture(QOpenGLTexture::Target::Target1D);
+    m_text->setSize(1);
+    m_text->allocateStorage();
+    data = new float[4];
+    data[0] = 1.;
+    data[1] = 1.;
+    data[2] = 1.;
+    data[3] = 1.;
+    m_text->setData(0, 0, QOpenGLTexture::CubeMapPositiveX, QOpenGLTexture::RGBA, QOpenGLTexture::Float32, (void*) data);
+
+    m_text->bind(0);
+    m_prog->setUniformValue("iData", 0);
+
     m_vbo.release();
     m_prog->release();
 }

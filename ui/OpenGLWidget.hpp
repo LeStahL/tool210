@@ -22,6 +22,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
+#include <QOpenGLTexture>
 
 class OpenGLWidget : public QOpenGLWidget
 {
@@ -37,6 +38,8 @@ protected:
 private:
     QOpenGLShaderProgram *m_prog;
     QOpenGLVertexArrayObject m_vbo;
+    QOpenGLTexture *m_text;
+    float *data;
 };
 
 #endif

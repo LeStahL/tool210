@@ -23,6 +23,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
 if(WIN32)
     set(CMAKE_PREFIX_PATH "C:\\Qt\\5.12.1\\msvc2017_64")
 endif()
