@@ -37,6 +37,8 @@ set(SRC210
     Tool210.cpp
 )
 
+configure_file(config/config.h.in config.h @ONLY)
+
 add_executable(Tool210 ${SRC210})
 
 target_link_libraries(Tool210 Qt5::Widgets Qt5::Gui)

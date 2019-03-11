@@ -16,6 +16,7 @@
  */
 
 #include "OpenGLWidget.hpp"
+#include "config.h"
 #include <QOpenGLFunctions>
 #include <QDebug>
 
@@ -45,7 +46,7 @@ void OpenGLWidget::initializeGL()
 {
     qDebug() << "GL: Init";
     m_prog = new QOpenGLShaderProgram();
-    m_prog->addShaderFromSourceFile(QOpenGLShader::Fragment, "../shader/main.frag");
+    m_prog->addShaderFromSourceFile(QOpenGLShader::Fragment, SHADER_FILE);
     m_prog->link();
     m_prog->bind();
 

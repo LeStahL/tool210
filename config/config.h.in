@@ -1,0 +1,1 @@
+#define SHADER_FILE "@CMAKE_SOURCE_DIR@/shader/main.frag"
