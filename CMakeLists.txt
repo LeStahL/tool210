@@ -33,6 +33,7 @@ find_package(Qt5Gui CONFIG REQUIRED)
 set(SRC210
     ui/MainWindow.ui
     ui/MainWindow.cpp
+    ui/OpenGLWidget.cpp
     Tool210.cpp
 )
 
