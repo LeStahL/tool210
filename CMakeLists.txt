@@ -18,3 +18,24 @@
 cmake_minimum_required(VERSION 3.5)
 project(tool210)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
+
+if(WIN32)
+    set(CMAKE_PREFIX_PATH "C:\\Qt\\5.12.1\\msvc2017_64")
+endif()
+
+find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Gui CONFIG REQUIRED)
+
+set(SRC210
+    ui/MainWindow.ui
+    ui/MainWindow.cpp
+    Tool210.cpp
+)
+
+add_executable(Tool210 ${SRC210})
+
+target_link_libraries(Tool210 Qt5::Widgets Qt5::Gui)
