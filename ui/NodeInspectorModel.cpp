@@ -15,26 +15,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef NODE_H
-#define NODE_H
+#include "NodeInspectorModel.hpp"
 
-class Layer;
-
-#include <QList>
-
-class Node
+NodeInspectorModel::NodeInspectorModel(Node *n, QObject *parent)
+    : QAbstractItemModel(parent)
+    , m_node(n)
 {
-public:
-    Node(Layer *parent, QString name="");
-    virtual ~Node();
-    
-    QByteArray pack(QTime t);
-    QString name();
-    void setName(QString name);
-    
-private:
-    QString m_name;
-    QList<Node *> m_children;
-};
+}
 
-#endif
+NodeInspectorModel::~NodeInspectorModel()
+{
+}
+
+QModelIndex NodeInspectorModel::index(int row, int column, const QModelIndex& parent) const
+{
+    if(!hasIndex(row, column, parent)) return QModelIndex();
+    
+    Node *parent;
+}
+
+int NodeInspectorModel::columnCount(const QModelIndex& parent) const
+{
+    
+}
