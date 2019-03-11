@@ -45,7 +45,6 @@ OpenGLWidget::~OpenGLWidget()
 
 void OpenGLWidget::initializeGL()
 {
-    qDebug() << "GL: Init";
     m_prog = new QOpenGLShaderProgram();
     m_prog->addShaderFromSourceFile(QOpenGLShader::Vertex, VERT_SHADER_FILE);
     m_prog->addShaderFromSourceFile(QOpenGLShader::Fragment, FRAG_SHADER_FILE);
@@ -63,12 +62,13 @@ void OpenGLWidget::initializeGL()
 
 void OpenGLWidget::resizeGL(int w, int h)
 {
-    qDebug() << "GL: Resize";
+    m_prog->bind();
+    m_prog->setUniformValue("iResolution", w, h);
+    m_prog->release();
 }
 
 void OpenGLWidget::paintGL()
 {
-    qDebug() << "GL: Paint";
     m_prog->bind();
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     {
