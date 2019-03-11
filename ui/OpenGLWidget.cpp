@@ -40,7 +40,6 @@ OpenGLWidget::OpenGLWidget(QWidget* parent)
 OpenGLWidget::~OpenGLWidget()
 {
     m_vbo.destroy();
-    m_vert.destroy();
     delete m_prog;
 }
 
@@ -53,17 +52,11 @@ void OpenGLWidget::initializeGL()
     m_prog->link();
     m_prog->bind();
 
-    m_vert.create();
-    m_vert.bind();
-    m_vert.setUsagePattern(QOpenGLBuffer::StaticDraw);
-    m_vert.allocate(vertices, sizeof(vertices));
-
     m_vbo.create();
     m_vbo.bind();
+    m_prog->setAttributeArray(0, vertices, 3);
     m_prog->enableAttributeArray(0);
-    m_prog->setAttributeBuffer(0, GL_FLOAT, 0, 3);
 
-    m_vert.release();
     m_vbo.release();
     m_prog->release();
 }

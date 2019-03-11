@@ -37,7 +37,6 @@ protected:
 private:
     QOpenGLShaderProgram *m_prog;
     QOpenGLVertexArrayObject m_vbo;
-    QOpenGLBuffer m_vert;
 };
 
 #endif
