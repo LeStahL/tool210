@@ -18,12 +18,23 @@
 #ifndef CONSTANT_H
 #define CONSTANT_H
 
+#include <QString>
+#include <QVariant>
+
 #include "Node.h"
 
 class Constant : public Node
 {
 public:
-    Constant(Layer *parent);
+    Constant(Layer *layer, Node *parent, QString name="", QVariant value = QVariant());
+    
+    virtual QString typeString() const override;
+    
+    QVariant value() const;
+    void setValue(QVariant value);
+    
+private:
+    QVariant m_value;
 };
 
 #endif

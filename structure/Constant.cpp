@@ -15,32 +15,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef NODE_H
-#define NODE_H
+#include "Constant.hpp"
+#include "Layer.hpp"
+#include "Node.hpp"
 
-class Layer;
-
-#include <QList>
-
-class Node
+Constant::Constant(Layer* layer, Node* parent, QString name, QVariant value)
+    : Node(layer, parent, name)
+    , m_value(value)
 {
-public:
-    Node(Layer *layer, Node *parent, QString name="");
-    virtual ~Node();
-    
-    QByteArray pack(QTime t);
-    QString name();
-    void setName(QString name);
-    
-    bool appendChild(Node *child);
-    bool removeChild(Node *child);
-    Node *childAt(int index);
-    
-    virtual QString typeString() const;
-    
-private:
-    QString m_name;
-    QList<Node *> m_children;
-};
+}
 
-#endif
+void Constant::setValue(QVariant value)
+{
+    m_value = value;
+}
+
+QVariant Constant::value()
+{
+    return m_value;
+}
+
+QString Constant::typeString() const
+{
+    return QString("Constant");
+}
