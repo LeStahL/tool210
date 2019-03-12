@@ -15,32 +15,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef OPENGLWIDGET_H
-#define OPENGLWIDGET_H
+#include "Node.hpp"
+#include "Layer.hpp"
 
-#include <QWidget>
-#include <QOpenGLWidget>
-#include <QOpenGLShaderProgram>
-#include <QOpenGLVertexArrayObject>
-#include <QOpenGLBuffer>
-#include <QOpenGLTexture>
-
-class OpenGLWidget : public QOpenGLWidget
+Node::Node(Layer *layer, Node *parent, QString name)
+    : m_name(name)
+    , m_layer(layer)
+    , m_parent(parent)
 {
-public:
-    OpenGLWidget(QWidget *parent = nullptr);
-    virtual ~OpenGLWidget();
+}
 
-protected:
-    void initializeGL();
-    void resizeGL(int w, int h);
-    void paintGL();
+Node * Node::childAt(int index)
+{
+    if(m_children.length() <= index || index < 0) return nullptr;
+    
+    return m_children.at(index);
+}
 
-private:
-    QOpenGLShaderProgram *m_prog;
-    QOpenGLVertexArrayObject m_vbo;
-    QOpenGLTexture *m_text;
-    float *data;
-};
+bool Node::appendChild(Node* child)
+{
+    return m_children.push_back(child);
+}
 
-#endif
+QString Node::name()
+{
+    return m_name;
+}
+
+

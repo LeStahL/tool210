@@ -18,6 +18,7 @@
 #ifndef BOX_H
 #define BOX_H
 
+#include <QString>
 #include "Node.hpp"
 
 class Box : public Node

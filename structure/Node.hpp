@@ -19,7 +19,12 @@
 #define NODE_H
 
 class Layer;
+class Node;
 
+#include <QList>
+#include <QString>
+#include <QTime>
+#include <QByteArray>
 #include <QList>
 
 class Node
@@ -41,6 +46,8 @@ public:
 private:
     QString m_name;
     QList<Node *> m_children;
+    Layer *m_layer;
+    Node *m_parent;
 };
 
 #endif

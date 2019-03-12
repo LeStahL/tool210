@@ -15,32 +15,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef OPENGLWIDGET_H
-#define OPENGLWIDGET_H
+#ifndef KEYFRAME_H
+#define KEYFRAME_H
 
-#include <QWidget>
-#include <QOpenGLWidget>
-#include <QOpenGLShaderProgram>
-#include <QOpenGLVertexArrayObject>
-#include <QOpenGLBuffer>
-#include <QOpenGLTexture>
+#include <QTime>
 
-class OpenGLWidget : public QOpenGLWidget
+class Keyframe
 {
 public:
-    OpenGLWidget(QWidget *parent = nullptr);
-    virtual ~OpenGLWidget();
-
-protected:
-    void initializeGL();
-    void resizeGL(int w, int h);
-    void paintGL();
-
+    Keyframe(QTime time);
+    virtual ~Keyframe();
+    
 private:
-    QOpenGLShaderProgram *m_prog;
-    QOpenGLVertexArrayObject m_vbo;
-    QOpenGLTexture *m_text;
-    float *data;
+    QTime time;
 };
 
 #endif
