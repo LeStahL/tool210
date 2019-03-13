@@ -25,12 +25,14 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLTexture>
 #include <QImage>
+#include <QOpenGLDebugLogger>
 
 class OpenGLWidget : public QOpenGLWidget
 {
 public:
     OpenGLWidget(QWidget *parent = nullptr);
     virtual ~OpenGLWidget();
+    void updateData();
 
 protected:
     void initializeGL();
@@ -41,8 +43,10 @@ private:
     QOpenGLShaderProgram *m_prog;
     QOpenGLVertexArrayObject m_vbo;
     QOpenGLTexture *m_text;
-    QImage data;
-    uint counter;
+    QImage m_image;
+    uchar *m_data;
+    uchar m_counter;
+    QOpenGLDebugLogger *m_logger;
 };
 
 #endif

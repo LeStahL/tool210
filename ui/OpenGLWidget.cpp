@@ -45,6 +45,9 @@ OpenGLWidget::~OpenGLWidget()
 
 void OpenGLWidget::initializeGL()
 {
+    m_logger = new QOpenGLDebugLogger(this);
+    m_logger->initialize();
+
     m_prog = new QOpenGLShaderProgram();
     m_prog->addShaderFromSourceFile(QOpenGLShader::Vertex, VERT_SHADER_FILE);
     m_prog->addShaderFromSourceFile(QOpenGLShader::Fragment, FRAG_SHADER_FILE);
@@ -56,10 +59,19 @@ void OpenGLWidget::initializeGL()
     m_prog->setAttributeArray(0, vertices, 3);
     m_prog->enableAttributeArray(0);
 
-    counter = 0;
-    data = QImage(10, 10, QImage::Format_ARGB32); // TODO test for nullptr
-    data.fill(counter | 0xFF000000);
-    m_text = new QOpenGLTexture(data);
+    m_text = new QOpenGLTexture(QOpenGLTexture::Target2D);
+    m_text->create();
+
+    m_text->setSize(4, 4);
+    m_text->setFormat(QOpenGLTexture::RGBA8_UNorm);
+    m_text->setMipLevels(1);
+    m_text->allocateStorage();
+    m_text->setWrapMode(QOpenGLTexture::ClampToEdge);
+    m_text->setMinMagFilters(QOpenGLTexture::Nearest, QOpenGLTexture::Nearest);
+
+    m_counter = 0;
+    m_data = new uchar[64];
+    updateData();
 
     m_text->bind(0);
     m_prog->setUniformValue("iData", 0);
@@ -75,20 +87,43 @@ void OpenGLWidget::resizeGL(int w, int h)
     m_prog->release();
 }
 
+void OpenGLWidget::updateData()
+{
+    for (int i=0; i<64; i++)
+    {
+        if (i % 4 == 0)
+        {
+            m_data[i] = m_counter;
+        } else if (i % 4 == 1)
+        {
+            m_data[i] = m_counter + 0x40;
+        } else if (i % 4 == 2)
+        {
+            m_data[i] = m_counter + 0x80;
+        } else {
+            m_data[i] = 0xFF;
+        }
+    }
+    m_text->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, m_data);
+}
+
 void OpenGLWidget::paintGL()
 {
-    counter += 1;
-    data.fill(counter | 0xFF000000);
-    m_text = new QOpenGLTexture(data);
-    m_prog->bind();
-    qDebug() << counter;
+    updateData();
+
+    m_counter++;
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+    QList<QOpenGLDebugMessage> messages = m_logger->loggedMessages();
+    foreach (const QOpenGLDebugMessage &message, messages)
     {
-        m_vbo.bind();
-        m_text->bind();
-        f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
-        m_text->release();
-        m_vbo.release();
+        qDebug() << message;
     }
+    m_prog->bind();
+    m_vbo.bind();
+    m_text->bind();
+    f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+    m_text->release();
+    m_vbo.release();
     m_prog->release();
+    this->update();
 }
