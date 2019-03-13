@@ -66,7 +66,7 @@ void OpenGLWidget::initializeGL()
     m_text->setFormat(QOpenGLTexture::RGBA8_UNorm);
     m_text->setMipLevels(1);
     m_text->allocateStorage();
-    m_text->setWrapMode(QOpenGLTexture::ClampToEdge);
+    m_text->setWrapMode(QOpenGLTexture::Repeat);
     m_text->setMinMagFilters(QOpenGLTexture::Nearest, QOpenGLTexture::Nearest);
 
     m_counter = 0;
@@ -93,13 +93,13 @@ void OpenGLWidget::updateData()
     {
         if (i % 4 == 0)
         {
-            m_data[i] = m_counter;
+            m_data[i] = m_counter + 0x10 * (i / 4);
         } else if (i % 4 == 1)
         {
-            m_data[i] = m_counter + 0x40;
+            m_data[i] = m_counter + 0x40 + 0x20 * (i / 4);
         } else if (i % 4 == 2)
         {
-            m_data[i] = m_counter + 0x80;
+            m_data[i] = m_counter + 0x80 + 0x30 * (i / 4);
         } else {
             m_data[i] = 0xFF;
         }
