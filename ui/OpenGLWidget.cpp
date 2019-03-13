@@ -56,15 +56,10 @@ void OpenGLWidget::initializeGL()
     m_prog->setAttributeArray(0, vertices, 3);
     m_prog->enableAttributeArray(0);
 
-    m_text = new QOpenGLTexture(QOpenGLTexture::Target::Target1D);
-    m_text->setSize(1);
-    m_text->allocateStorage();
-    data = new float[4];
-    data[0] = 1.;
-    data[1] = 1.;
-    data[2] = 1.;
-    data[3] = 1.;
-    m_text->setData(0, 0, QOpenGLTexture::CubeMapPositiveX, QOpenGLTexture::RGBA, QOpenGLTexture::Float32, (void*) data);
+    counter = 0;
+    data = QImage(10, 10, QImage::Format_ARGB32); // TODO test for nullptr
+    data.fill(counter | 0xFF000000);
+    m_text = new QOpenGLTexture(data);
 
     m_text->bind(0);
     m_prog->setUniformValue("iData", 0);
@@ -82,11 +77,17 @@ void OpenGLWidget::resizeGL(int w, int h)
 
 void OpenGLWidget::paintGL()
 {
+    counter += 1;
+    data.fill(counter | 0xFF000000);
+    m_text = new QOpenGLTexture(data);
     m_prog->bind();
+    qDebug() << counter;
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     {
         m_vbo.bind();
+        m_text->bind();
         f->glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, indices);
+        m_text->release();
         m_vbo.release();
     }
     m_prog->release();
