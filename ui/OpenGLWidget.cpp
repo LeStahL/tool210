@@ -62,22 +62,51 @@ void OpenGLWidget::initializeGL()
     m_text = new QOpenGLTexture(QOpenGLTexture::Target2D);
     m_text->create();
 
-    m_text->setSize(4, 4);
-    m_text->setFormat(QOpenGLTexture::RGBA8_UNorm);
+    m_text->setSize(DATA_W, DATA_H);
+    m_text->setFormat(QOpenGLTexture::RGBA32F);
     m_text->setMipLevels(1);
     m_text->allocateStorage();
     m_text->setWrapMode(QOpenGLTexture::Repeat);
     m_text->setMinMagFilters(QOpenGLTexture::Nearest, QOpenGLTexture::Nearest);
 
     m_counter = 0;
-    m_data = new uchar[64];
+    m_data = new float[4 * DATA_W * DATA_H];
+    for (int i=0; i<4*DATA_W*DATA_H; i++)
+    {
+        m_data[i] = 0;
+    }
+    this->setRectangle(0, 1.,0.,0.,1., 0.1, 0.2, 0.6, 0.3);
+    this->setRectangle(1, 0.,1.,0.5,0.5, 0.3, 0., 0.6, 0.3);
+
     updateData();
 
     m_text->bind(0);
     m_prog->setUniformValue("iData", 0);
+    m_prog->setUniformValue("iDataSize", DATA_W, DATA_H);
 
     m_vbo.release();
     m_prog->release();
+}
+
+void OpenGLWidget::setRectangle(int i, float r, float g, float b, float a, float x, float y, float w, float h)
+{
+    if ((i >= 0) && (i < DATA_H))
+    {
+        m_data[4*DATA_W * i + 0] = 1.;
+        m_data[4*DATA_W * i + 1] = 0.;
+        m_data[4*DATA_W * i + 2] = 0.;
+        m_data[4*DATA_W * i + 3] = 0.;
+
+        m_data[4*DATA_W * i + 4] = r;
+        m_data[4*DATA_W * i + 5] = g;
+        m_data[4*DATA_W * i + 6] = b;
+        m_data[4*DATA_W * i + 7] = a;
+
+        m_data[4*DATA_W * i + 8] = x;
+        m_data[4*DATA_W * i + 9] = y;
+        m_data[4*DATA_W * i + 10] = w;
+        m_data[4*DATA_W * i + 11] = h;
+    }
 }
 
 void OpenGLWidget::resizeGL(int w, int h)
@@ -89,22 +118,7 @@ void OpenGLWidget::resizeGL(int w, int h)
 
 void OpenGLWidget::updateData()
 {
-    for (int i=0; i<64; i++)
-    {
-        if (i % 4 == 0)
-        {
-            m_data[i] = m_counter + 0x10 * (i / 4);
-        } else if (i % 4 == 1)
-        {
-            m_data[i] = m_counter + 0x40 + 0x20 * (i / 4);
-        } else if (i % 4 == 2)
-        {
-            m_data[i] = m_counter + 0x80 + 0x30 * (i / 4);
-        } else {
-            m_data[i] = 0xFF;
-        }
-    }
-    m_text->setData(QOpenGLTexture::RGBA, QOpenGLTexture::UInt8, m_data);
+    m_text->setData(QOpenGLTexture::RGBA, QOpenGLTexture::Float32, m_data);
 }
 
 void OpenGLWidget::paintGL()

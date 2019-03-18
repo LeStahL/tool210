@@ -27,12 +27,16 @@
 #include <QImage>
 #include <QOpenGLDebugLogger>
 
+#define DATA_W 10
+#define DATA_H 10
+
 class OpenGLWidget : public QOpenGLWidget
 {
 public:
     OpenGLWidget(QWidget *parent = nullptr);
     virtual ~OpenGLWidget();
     void updateData();
+    void setRectangle(int i, float r, float g, float b, float a, float x, float y, float w, float h);
 
 protected:
     void initializeGL();
@@ -44,7 +48,7 @@ private:
     QOpenGLVertexArrayObject m_vbo;
     QOpenGLTexture *m_text;
     QImage m_image;
-    uchar *m_data;
+    float *m_data;
     uchar m_counter;
     QOpenGLDebugLogger *m_logger;
 };
