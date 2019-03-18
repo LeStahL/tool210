@@ -3,6 +3,9 @@
 *.kate_swp
 *.kate-swp
 
+# VS Code
+*.vscode
+
 # build
 build
 
