@@ -26,6 +26,7 @@
 #include <QOpenGLTexture>
 #include <QImage>
 #include <QOpenGLDebugLogger>
+#include <QColor>
 
 #define DATA_W 10
 #define DATA_H 10
@@ -36,7 +37,7 @@ public:
     OpenGLWidget(QWidget *parent = nullptr);
     virtual ~OpenGLWidget();
     void updateData();
-    void setRectangle(int i, float r, float g, float b, float a, float x, float y, float w, float h);
+    void setRectangle(int i, QColor color, float x, float y, float w, float h);
 
 protected:
     void initializeGL();

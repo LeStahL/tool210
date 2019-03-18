@@ -75,8 +75,8 @@ void OpenGLWidget::initializeGL()
     {
         m_data[i] = 0;
     }
-    this->setRectangle(0, 1.,0.,0.,1., 0.1, 0.2, 0.6, 0.3);
-    this->setRectangle(1, 0.,1.,0.5,0.5, 0.3, 0., 0.6, 0.3);
+    this->setRectangle(0, Qt::red, 0.1, 0.2, 0.6, 0.3);
+    this->setRectangle(1, QColor(0, 255, 0, 127), 0.3, 0., 0.6, 0.3);
 
     updateData();
 
@@ -88,7 +88,7 @@ void OpenGLWidget::initializeGL()
     m_prog->release();
 }
 
-void OpenGLWidget::setRectangle(int i, float r, float g, float b, float a, float x, float y, float w, float h)
+void OpenGLWidget::setRectangle(int i, QColor color, float x, float y, float w, float h)
 {
     if ((i >= 0) && (i < DATA_H))
     {
@@ -97,10 +97,10 @@ void OpenGLWidget::setRectangle(int i, float r, float g, float b, float a, float
         m_data[4*DATA_W * i + 2] = 0.;
         m_data[4*DATA_W * i + 3] = 0.;
 
-        m_data[4*DATA_W * i + 4] = r;
-        m_data[4*DATA_W * i + 5] = g;
-        m_data[4*DATA_W * i + 6] = b;
-        m_data[4*DATA_W * i + 7] = a;
+        m_data[4*DATA_W * i + 4] = float(color.red())/256.;
+        m_data[4*DATA_W * i + 5] = float(color.green())/256.;
+        m_data[4*DATA_W * i + 6] = float(color.blue())/256.;
+        m_data[4*DATA_W * i + 7] = float(color.alpha())/256.;
 
         m_data[4*DATA_W * i + 8] = x;
         m_data[4*DATA_W * i + 9] = y;
