@@ -75,8 +75,9 @@ void OpenGLWidget::initializeGL()
     {
         m_data[i] = 0;
     }
-    this->setRectangle(0, Qt::red, 0.1, 0.2, 0.6, 0.3);
-    this->setRectangle(1, QColor(0, 255, 0, 127), 0.3, 0., 0.6, 0.3);
+    this->setRectangle(0, Qt::red, -0.5, -0.5, 1.2, 0.6);
+    this->setRectangle(1, QColor(0, 255, 0, 50), 0., -1., 1., 1.5);
+    this->setCircle(2, QColor(0, 0, 200, 150), 0.4, 0.4, 0.8);
 
     updateData();
 
@@ -86,6 +87,26 @@ void OpenGLWidget::initializeGL()
 
     m_vbo.release();
     m_prog->release();
+}
+
+void OpenGLWidget::setCircle(int i, QColor color, float x, float y, float r)
+{
+    if ((i >= 0) && (i < DATA_H))
+    {
+        m_data[4*DATA_W * i + 0] = 2.;
+        m_data[4*DATA_W * i + 1] = 0.;
+        m_data[4*DATA_W * i + 2] = 0.;
+        m_data[4*DATA_W * i + 3] = 0.;
+
+        m_data[4*DATA_W * i + 4] = float(color.red())/256.;
+        m_data[4*DATA_W * i + 5] = float(color.green())/256.;
+        m_data[4*DATA_W * i + 6] = float(color.blue())/256.;
+        m_data[4*DATA_W * i + 7] = float(color.alpha())/256.;
+
+        m_data[4*DATA_W * i + 8] = x;
+        m_data[4*DATA_W * i + 9] = y;
+        m_data[4*DATA_W * i + 10] = r;
+    }
 }
 
 void OpenGLWidget::setRectangle(int i, QColor color, float x, float y, float w, float h)

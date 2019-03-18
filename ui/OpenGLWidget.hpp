@@ -38,6 +38,7 @@ public:
     virtual ~OpenGLWidget();
     void updateData();
     void setRectangle(int i, QColor color, float x, float y, float w, float h);
+    void setCircle(int i, QColor color, float x, float y, float r);
 
 protected:
     void initializeGL();
